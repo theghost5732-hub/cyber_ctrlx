@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="محاكي امتحان ICT101 - مقدمة في الأمن السيبراني: امتحانات تدريبية بنفس شكل Google Forms مع تصحيح وشرح فوري.">
+    <meta name="theme-color" content="#673ab7">
+    <script>
+        (function () {
+            var theme = null;
+            try { theme = localStorage.getItem('ict101-theme'); } catch (e) {}
+            if (theme !== 'light' && theme !== 'dark') {
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.dataset.theme = theme;
+        })();
+    </script>
+    <title>ctrl X | ICT101 Intro to Cyber Security Quiz</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23673ab7'/%3E%3Ctext x='16' y='23.5' font-size='21' font-weight='700' text-anchor='middle' fill='%23fff' font-family='monospace'%3EX%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gf-purple: #673ab7;
+            --gf-purple-dark: #512da8;
+            --gf-purple-light: #f0ebf8;
+            --gf-border: #dadce0;
+            --gf-text: #202124;
+            --gf-subtext: #5f6368;
+            --gf-red: #d93025;
+            --gf-red-bg: #fce8e6;
+            --gf-green: #1e8e3e;
+            --gf-green-bg: #e6f4ea;
+            --surface: #ffffff;
+            --surface-alt: #f8f9fa;
+            --chip: #f1f3f4;
+            --text-strong: #3c4043;
+            --accent-text: #673ab7;
+            --green-text: #137333;
+            --red-text: #c5221f;
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            --gf-purple-light: #1b1824;
+            --gf-border: #3f3b4b;
+            --gf-text: #e8eaed;
+            --gf-subtext: #aeb3b9;
+            --gf-red: #f28b82;
+            --gf-red-bg: #4a2522;
+            --gf-green: #81c995;
+            --gf-green-bg: #1f3a2a;
+            --surface: #26232f;
+            --surface-alt: #2f2b3a;
+            --chip: #3a3547;
+            --text-strong: #dadce0;
+            --accent-text: #c4b0f0;
+            --green-text: #a8dab5;
+            --red-text: #f6aea9;
+            color-scheme: dark;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        [hidden] { display: none !important; }
+
+        body {
+            background-color: var(--gf-purple-light);
+            color: var(--gf-text);
+            font-family: 'Cairo', 'Roboto', Tahoma, sans-serif;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        .skip-link {
+            position: absolute;
+            inset-inline-start: 8px;
+            top: -60px;
+            background: var(--gf-purple);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 4px;
+            z-index: 2000;
+        }
+        .skip-link:focus { top: 8px; }
+
+        button { font-family: inherit; }
+        :focus-visible { outline: 3px solid var(--accent-text); outline-offset: 2px; }
+
+        /* Timer bar */
+        .brand {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 22px 12px 10px;
+            direction: ltr;
+        }
+
+        .key {
+            font-family: 'Roboto Mono', ui-monospace, Consolas, monospace;
+            font-weight: 700;
+            font-size: 22px;
+            line-height: 1;
+            padding: 10px 18px;
+            border-radius: 9px;
+            border: 2px solid var(--gf-purple);
+            background: var(--surface);
+            color: var(--accent-text);
+            box-shadow: 0 5px 0 var(--gf-purple);
+            user-select: none;
+        }
+
+        .key-x {
+            background: var(--gf-purple);
+            color: #fff;
+            min-width: 56px;
+            text-align: center;
+        }
+
+        .sticky-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--surface);
+            border-bottom: 1px solid var(--gf-border);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+            padding: 10px 16px;
+        }
+
+        .sticky-content {
+            max-width: 770px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timer-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface-alt);
+            border: 1px solid var(--gf-border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            color: var(--accent-text);
+            font-size: 15px;
+        }
+
+        .timer-box.warning {
+            background: var(--gf-red-bg);
+            color: var(--gf-red);
+            border-color: var(--gf-red);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .timer-box.warning { animation: none; }
+            html { scroll-behavior: auto; }
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: var(--gf-subtext);
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 770px;
+            margin: 14px auto;
+            padding: 0 12px;
+        }
+
+        /* Exam picker */
+        .mode-selector {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 4px 2px 10px;
+            scrollbar-width: none;
+        }
+        .mode-selector::-webkit-scrollbar { display: none; }
+
+        .mode-btn, .filter-btn, .theme-btn {
+            background: var(--surface);
+            border: 1px solid var(--gf-border);
+            color: var(--gf-subtext);
+            padding: 10px 16px;
+            min-height: 44px;
+            border-radius: 18px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+        .mode-btn:hover, .filter-btn:hover, .theme-btn:hover { border-color: var(--gf-purple); color: var(--accent-text); }
+        .mode-btn[aria-pressed="true"], .filter-btn[aria-pressed="true"] {
+            background: var(--gf-purple);
+            color: #fff;
+            border-color: var(--gf-purple);
+        }
+
+        /* Cards */
+        .gf-card {
+            background: var(--surface);
+            border: 1px solid var(--gf-border);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            padding: 24px;
+            scroll-margin-top: 80px;
+        }
+
+        .gf-header-card { border-top: 10px solid var(--gf-purple); }
+
+        .gf-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .gf-title { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+
+        .total-points-badge {
+            background: var(--gf-purple);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            direction: ltr;
+        }
+
+        .gf-desc {
+            font-size: 14px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gf-border);
+        }
+
+        .gf-req-note { font-size: 13px; color: var(--gf-red); }
+
+        .review-toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+
+        .gf-input {
+            width: 100%;
+            max-width: 400px;
+            border: none;
+            border-bottom: 1px solid var(--gf-border);
+            padding: 8px 0;
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            background: transparent;
+            color: var(--gf-text);
+        }
+        .gf-input:focus { border-bottom: 2px solid var(--gf-purple); }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .q-title-wrap { flex: 1; }
+
+        .q-en {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            direction: ltr;
+            text-align: left;
+            margin-bottom: 6px;
+        }
+
+        .q-ar {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-strong);
+            direction: rtl;
+            text-align: right;
+        }
+
+        .req-star { color: var(--gf-red); margin-inline-start: 4px; }
+
+        .q-points {
+            font-size: 12px;
+            color: var(--gf-subtext);
+            white-space: nowrap;
+            font-weight: 600;
+            direction: ltr;
+            background: var(--chip);
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .q-points.pts-ok { background: var(--gf-green-bg); color: var(--gf-green); }
+        .q-points.pts-bad { background: var(--gf-red-bg); color: var(--gf-red); }
+
+        .options-list { display: flex; flex-direction: column; gap: 6px; direction: ltr; }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            min-height: 44px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Roboto', 'Cairo', sans-serif;
+            font-size: 15px;
+            border: 1px solid transparent;
+            transition: background 0.15s;
+        }
+        .option-label:hover { background: var(--surface-alt); }
+        .option-label:has(input:focus-visible) { outline: 3px solid var(--gf-purple); outline-offset: 1px; }
+
+        .option-label input[type="radio"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gf-subtext);
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .option-label input[type="radio"]:checked { border-color: var(--gf-purple); }
+        .option-label input[type="radio"]:checked::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--gf-purple);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .option-label input[type="radio"]:disabled { cursor: default; }
+
+        .gf-card.unanswered-error { border-color: var(--gf-red); }
+
+        .error-msg { display: none; color: var(--gf-red); font-size: 13px; margin-top: 12px; }
+        .gf-card.unanswered-error .error-msg { display: block; }
+
+        .gf-card.correct-card { border-inline-start: 6px solid var(--gf-green); }
+        .gf-card.wrong-card { border-inline-start: 6px solid var(--gf-red); }
+
+        .option-label.correct-opt {
+            background-color: var(--gf-green-bg);
+            border-color: var(--gf-green);
+            color: var(--green-text);
+            font-weight: 600;
+        }
+        .option-label.wrong-opt {
+            background-color: var(--gf-red-bg);
+            border-color: var(--gf-red);
+            color: var(--red-text);
+        }
+
+        .feedback-box {
+            margin-top: 16px;
+            padding: 14px;
+            background: var(--surface-alt);
+            border-top: 1px solid var(--gf-border);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .feedback-title { font-weight: 700; margin-bottom: 6px; }
+        .feedback-title.pass { color: var(--gf-green); }
+        .feedback-title.fail { color: var(--gf-red); }
+        .feedback-source { margin-bottom: 4px; color: var(--gf-subtext); font-size: 12px; }
+
+        .only-wrong .correct-card { display: none; }
+        .empty-note { text-align: center; color: var(--gf-subtext); padding: 24px 0; }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn-submit {
+            background: var(--gf-purple);
+            color: #fff;
+            border: none;
+            padding: 10px 28px;
+            min-height: 44px;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .btn-submit:hover { background: var(--gf-purple-dark); }
+
+        .btn-clear {
+            background: transparent;
+            color: var(--accent-text);
+            border: none;
+            padding: 10px 14px;
+            min-height: 44px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .btn-clear:hover { background: rgba(103, 58, 183, 0.08); }
+        .btn-clear.bordered { border: 1px solid var(--accent-text); }
+
+        .result-box {
+            background: var(--surface-alt);
+            padding: 14px;
+            border-radius: 6px;
+            border: 1px solid var(--gf-border);
+            margin: 14px 0;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--accent-text);
+        }
+        .result-name { font-size: 14px; color: var(--gf-subtext); font-weight: 600; overflow-wrap: anywhere; }
+
+        .confirm-links { margin-top: 20px; display: flex; gap: 14px; flex-wrap: wrap; }
+
+        .gf-footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: var(--gf-subtext);
+            margin-top: 28px;
+        }
+
+        dialog {
+            border: none;
+            border-radius: 8px;
+            padding: 24px;
+            width: min(420px, calc(100% - 32px));
+            margin: auto;
+            background: var(--surface);
+            color: var(--gf-text);
+            font-family: inherit;
+        }
+        dialog::backdrop { background: rgba(32, 33, 36, 0.5); }
+        dialog p { margin-bottom: 20px; font-size: 15px; }
+        .dialog-actions { display: flex; gap: 10px; justify-content: flex-start; }
+
+        @media (max-width: 600px) {
+            .gf-card { padding: 18px; }
+            .gf-title { font-size: 21px; }
+            .q-en { font-size: 15px; }
+            .q-ar { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#questionsContainer">تخطي إلى الأسئلة</a>
+
+    <div class="brand" role="img" aria-label="ctrl X">
+        <span class="key" aria-hidden="true">ctrl</span>
+        <span class="key key-x" aria-hidden="true">X</span>
+    </div>
+
+    <header class="sticky-bar">
+        <div class="sticky-content">
+            <div class="timer-box" id="timerBox">
+                <span>الوقت المتبقي:</span>
+                <span id="timerDisplay" dir="ltr">45:00</span>
+            </div>
+            <div class="progress-text" id="progressText">تمت الإجابة على: 0 / 15</div>
+            <button type="button" class="theme-btn" id="themeToggle"></button>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav class="mode-selector" id="modeSelector" aria-label="اختيار الامتحان"></nav>
+
+        <noscript><div class="gf-card">هذه الصفحة تحتاج تفعيل JavaScript عشان الامتحان يشتغل.</div></noscript>
+
+        <section id="quizView">
+            <div class="gf-card gf-header-card">
+                <div class="gf-title-row">
+                    <h1 class="gf-title">ICT101 – Intro to Cyber Security Quiz</h1>
+                    <div class="total-points-badge" id="totalScoreBadge" hidden></div>
+                </div>
+                <p class="gf-desc" id="examDescription"></p>
+                <p class="gf-req-note">* تشير إلى أن السؤال مطلوب (Indicates required question)</p>
+                <div class="review-toolbar" id="reviewToolbar" hidden>
+                    <button type="button" class="filter-btn" data-filter="all" aria-pressed="true">كل الأسئلة</button>
+                    <button type="button" class="filter-btn" data-filter="wrong" aria-pressed="false">الأخطاء فقط</button>
+                </div>
+            </div>
+
+            <div class="gf-card">
+                <label class="q-ar" for="studentName">الاسم الثلاثي / الرقم الجامعي (اختياري للتدريب)</label>
+                <input type="text" class="gf-input" id="studentName" placeholder="إجابتك (Your answer)" autocomplete="off">
+            </div>
+
+            <div id="questionsContainer"></div>
+            <p class="empty-note" id="noWrongNote" hidden>كل إجاباتك في هذا النموذج صحيحة.</p>
+
+            <div class="form-actions" id="formActions">
+                <button type="button" class="btn-submit" id="submitBtn">إرسال (Submit)</button>
+                <button type="button" class="btn-clear" id="clearBtn">محو النموذج (Clear form)</button>
+            </div>
+        </section>
+
+        <section id="submittedScreen" hidden>
+            <div class="gf-card gf-header-card">
+                <h2 class="gf-title">ICT101 – Intro to Cyber Security Quiz</h2>
+                <p>لقد تم تسجيل ردك. (Your response has been recorded.)</p>
+                <div class="result-box" id="quickSummary"></div>
+                <div class="confirm-links">
+                    <button type="button" class="btn-submit" id="reviewBtn">عرض النتيجة ومراجعة الإجابات (View score)</button>
+                    <button type="button" class="btn-clear bordered" id="retryBtn">محاولة جديدة بنفس النموذج</button>
+                </div>
+            </div>
+        </section>
+
+        <p class="gf-footer-note">لم يتم إنشاء هذا المحتوى ولا اعتماده من قِبل Google. محاكي تدريب طلابي لمادة ICT101.</p>
+    </main>
+
+    <dialog id="messageDialog">
+        <form method="dialog">
+            <p id="dialogMessage"></p>
+            <div class="dialog-actions">
+                <button type="submit" value="ok" class="btn-submit" id="dialogConfirm">حسناً</button>
+                <button type="submit" value="cancel" class="btn-clear" id="dialogCancel">إلغاء</button>
+            </div>
+        </form>
+    </dialog>
+
+<script>
+const TF_OPTIONS = ["True", "False"];
+
+const tf = (source, en, answer, explanation) =>
+    ({ type: "tf", source, en, options: TF_OPTIONS, answer, explanation });
+
+const mcq = (source, en, options, answer, explanation) =>
+    ({ type: "mcq", source, en, options, answer, explanation });
+
+// 0-19 بنك صح/خطأ، 20-39 بنك اختياري، 40-59 أسئلة المحاضرة
+const questionBank = [
+    tf("بنك الأسئلة - صح وخطأ س1",
+        "Cybersecurity focuses on protecting digital systems, networks, devices, applications, and data from cyber threats.",
+        0, "العبارة صحيحة؛ هذا هو التعريف الأساسي للأمن السيبراني."),
+    tf("بنك الأسئلة - صح وخطأ س2",
+        "Cybersecurity is only about installing antivirus software on computers.",
+        1, "العبارة خاطئة؛ الأمن السيبراني ليس مجرد برنامج Antivirus أو Firewall، بل هو منظومة متكاملة."),
+    tf("بنك الأسئلة - صح وخطأ س3",
+        "Cybersecurity includes people, processes, technology, policies, and procedures.",
+        0, "العبارة صحيحة؛ الأمن السيبراني منظومة متكاملة تشمل كل هذه العناصر."),
+    tf("بنك الأسئلة - صح وخطأ س4",
+        "Unauthorized access occurs when a person accesses a system or data without the required permission.",
+        0, "العبارة صحيحة؛ مثل موظف يحاول الدخول إلى ملفات موظفين آخرين غير مصرح له بها."),
+    tf("بنك الأسئلة - صح وخطأ س5",
+        "Changing a student's grade without permission is an example of an Integrity problem.",
+        0, "العبارة صحيحة؛ أي تعديل غير مصرح به للبيانات يمس الـ Integrity."),
+    tf("بنك الأسئلة - صح وخطأ س6",
+        "Information Security protects only digital information and does not cover paper documents or verbal information.",
+        1, "العبارة خاطئة؛ أمن المعلومات (Information Security) يحمي المعلومات بغض النظر عن شكلها (رقمية، ورقية، مطبوعة، أو شفهية)."),
+    tf("بنك الأسئلة - صح وخطأ س7",
+        "Cybersecurity and Information Security are related concepts, but they are not exactly identical.",
+        0, "العبارة صحيحة؛ أمن المعلومات أعم في حماية المعلومات بكل أشكالها، بينما يركز الأمن السيبراني على البيئة الرقمية."),
+    tf("بنك الأسئلة - صح وخطأ س8",
+        "Information Assurance focuses only on preventing cyberattacks and does not consider system recovery.",
+        1, "العبارة خاطئة؛ ضمان المعلومات (Information Assurance) يهتم أيضاً بالنسخ الاحتياطية واستعادة النظام بعد الأعطال."),
+    tf("بنك الأسئلة - صح وخطأ س9",
+        "An email account may be used by an attacker to attempt password resets for other accounts linked to it.",
+        0, "العبارة صحيحة؛ اختراق البريد الإلكتروني يسمح للمهاجم بقراءة الرسائل وإعادة تعيين كلمات مرور الحسابات المرتبطة."),
+    tf("بنك الأسئلة - صح وخطأ س10",
+        "Cybersecurity helps protect personal, financial, medical, business, and government data.",
+        0, "العبارة صحيحة؛ حماية كافة أنواع هذه البيانات من أهم أسباب أهمية الأمن السيبراني."),
+    tf("بنك الأسئلة - صح وخطأ س11",
+        "Human error can create cybersecurity risks even when an organization has strong technical systems.",
+        0, "العبارة صحيحة؛ فتح رابط مشبوه أو كلمة مرور ضعيفة قد يعرض أقوى الأنظمة للخطر."),
+    tf("بنك الأسئلة - صح وخطأ س12",
+        "Using cloud services, mobile devices, IoT, and remote access can increase the complexity of cybersecurity management.",
+        0, "العبارة صحيحة؛ كل عنصر تقني جديد يضيف نقطة جديدة يجب حمايتها."),
+    tf("بنك الأسئلة - صح وخطأ س13",
+        "The People-Process-Technology model suggests that cybersecurity depends on technology alone.",
+        1, "العبارة خاطئة؛ النموذج يؤكد أن الحماية تعتمد على تكامل العناصر الثلاثة: الأشخاص والعمليات والتكنولوجيا."),
+    tf("بنك الأسئلة - صح وخطأ س14",
+        "Government cybersecurity includes protecting tax systems, citizen data, and electronic public services.",
+        0, "العبارة صحيحة؛ وهي جزء أساسي من الأمن السيبراني الوطني (National Cybersecurity)."),
+    tf("بنك الأسئلة - صح وخطأ س15",
+        "Universities may face cybersecurity threats such as phishing, malware, data leakage, and unauthorized access.",
+        0, "العبارة صحيحة؛ بالإضافة إلى سرقة الحسابات وهجمات أنظمة الامتحانات."),
+    tf("بنك الأسئلة - صح وخطأ س16",
+        "Integrity means ensuring that a banking service is always available to customers.",
+        1, "العبارة خاطئة؛ ضمان إتاحة الخدمة طوال الوقت هو التوافر (Availability)، بينما Integrity هو منع التعديل غير المصرح به."),
+    tf("بنك الأسئلة - صح وخطأ س17",
+        "E-commerce websites may face account takeover, payment fraud, web attacks, and fake websites.",
+        0, "العبارة صحيحة؛ هذه من أبرز التهديدات التي تواجه قطاع E-Commerce."),
+    tf("بنك الأسئلة - صح وخطأ س18",
+        "A Penetration Tester should test systems without permission whenever a vulnerability is suspected.",
+        1, "العبارة خاطئة؛ مختبر الاختراق (Penetration Tester) يختبر الأنظمة بتفويض وتصريح رسمي فقط."),
+    tf("بنك الأسئلة - صح وخطأ س19",
+        "A server's hardware can be a Digital Asset, while a customer database can be both a Digital Asset and an Information Asset.",
+        0, "العبارة صحيحة؛ لأن قاعدة البيانات هي مورد رقمي وفي نفس الوقت تحتوي على معلومات ذات قيمة."),
+    tf("بنك الأسئلة - صح وخطأ س20",
+        "A strong Security Posture depends only on having a firewall, antivirus software, and MFA.",
+        1, "العبارة خاطئة؛ الوضع الأمني القوي يتطلب أيضاً تدريب الموظفين، خطة استجابة للحوادث، نسخ احتياطية، ومراقبة مستمرة."),
+
+    mcq("بنك الأسئلة - اختر س1",
+        "Which of the following best defines Cybersecurity?",
+        ["A. Protecting only computer hardware.",
+         "B. Protecting digital systems, networks, applications, devices, and data from cyber threats.",
+         "C. Developing software for entertainment.",
+         "D. Managing financial transactions only."],
+        1, "الإجابة الصحيحة هي B؛ لأن الأمن السيبراني يحمي كافة الأنظمة الرقمية والشبكات والتطبيقات والأجهزة والبيانات."),
+    mcq("بنك الأسئلة - اختر س2",
+        "Which of the following is an example of an Information Asset?",
+        ["A. A computer monitor.", "B. A network cable.", "C. A student records database.", "D. A power supply unit."],
+        2, "الإجابة الصحيحة هي C؛ قاعدة بيانات سجلات الطلاب تمثل معلومات ذات قيمة تحتاج للحماية."),
+    mcq("بنك الأسئلة - اختر س3",
+        "Which security concept is concerned with preventing unauthorized disclosure of information?",
+        ["A. Availability", "B. Confidentiality", "C. Recovery", "D. Monitoring"],
+        1, "الإجابة الصحيحة هي B (Confidentiality - السرية)؛ وهي المسؤولة عن منع كشف أو سرقة البيانات لغير المصرح لهم."),
+    mcq("بنك الأسئلة - اختر س4",
+        "A university system is unavailable during student registration. Which security objective is most directly affected?",
+        ["A. Confidentiality", "B. Integrity", "C. Availability", "D. Authentication"],
+        2, "الإجابة الصحيحة هي C (Availability - التوافر)؛ لأن توقف النظام عن العمل يمس توافر الخدمة."),
+    mcq("بنك الأسئلة - اختر س5",
+        "Which statement correctly describes Information Security?",
+        ["A. It protects information regardless of whether it is digital, printed, or verbal.",
+         "B. It protects only Internet-connected computers.",
+         "C. It focuses only on malware detection.",
+         "D. It deals exclusively with banking systems."],
+        0, "الإجابة الصحيحة هي A؛ أمن المعلومات يحمي المعلومات أياً كان شكلها (رقمية، مطبوعة، ورقية، أو شفهية)."),
+    mcq("بنك الأسئلة - اختر س6",
+        "What is the primary purpose of Information Assurance?",
+        ["A. To eliminate the need for security policies.",
+         "B. To focus exclusively on purchasing security devices.",
+         "C. To ensure that information and systems remain trustworthy, secure, and usable when needed.",
+         "D. To prevent employees from using computers."],
+        2, "الإجابة الصحيحة هي C؛ ضمان المعلومات يتأكد من أن المعلومات والأنظمة تظل موثوقة وآمنة وقابلة للاستخدام عند الحاجة."),
+    mcq("بنك الأسئلة - اختر س7",
+        "Which of the following is an example of a Threat?",
+        ["A. A database containing customer records.",
+         "B. An attacker attempting to steal customer information.",
+         "C. A security policy document.",
+         "D. A backup procedure."],
+        1, "الإجابة الصحيحة هي B؛ المهاجم الذي يحاول سرقة بيانات العملاء يمثل تهديداً (Threat)."),
+    mcq("بنك الأسئلة - اختر س8",
+        "Which situation best represents a Vulnerability?",
+        ["A. A company has valuable customer data.",
+         "B. An employee receives a security awareness presentation.",
+         "C. A system has a weak password that may be exploited.",
+         "D. An organization creates a backup copy."],
+        2, "الإجابة الصحيحة هي C؛ وجود كلمة مرور ضعيفة يمكن استغلالها يمثل ثغرة أو نقطة ضعف (Vulnerability)."),
+    mcq("بنك الأسئلة - اختر س9",
+        "Which of the following is a major cybersecurity challenge related to human behavior?",
+        ["A. Opening a suspicious link.", "B. Maintaining a backup system.", "C. Applying security updates.", "D. Reviewing access permissions."],
+        0, "الإجابة الصحيحة هي A؛ فتح رابط مشبوه يندرج تحت الأخطاء البشرية (Human Error)."),
+    mcq("بنك الأسئلة - اختر س10",
+        "Which model identifies three major elements of organizational cybersecurity: People, Process, and Technology?",
+        ["A. CIA Triad", "B. People-Process-Technology", "C. Risk Assessment Matrix", "D. Incident Recovery Model"],
+        1, "الإجابة الصحيحة هي B؛ نموذج People-Process-Technology."),
+    mcq("بنك الأسئلة - اختر س11",
+        "Which of the following is a primary objective of cybersecurity in government?",
+        ["A. Eliminating all electronic public services.",
+         "B. Protecting government data and electronic public services.",
+         "C. Preventing citizens from using the Internet.",
+         "D. Replacing all digital systems with paper records."],
+        1, "الإجابة الصحيحة هي B؛ حماية البيانات الحكومية والخدمات العامة الإلكترونية والبنية التحتية."),
+    mcq("بنك الأسئلة - اختر س12",
+        "Which security measure can help protect university accounts even if a password is compromised?",
+        ["A. Disabling all user accounts.", "B. Removing system backups.", "C. Multi-Factor Authentication (MFA).", "D. Sharing passwords among students."],
+        2, "الإجابة الصحيحة هي C؛ المصادقة متعددة العوامل (MFA) تطلب عامل تحقق إضافي بجانب كلمة المرور."),
+    mcq("بنك الأسئلة - اختر س13",
+        "Which security objective is most directly concerned with preventing unauthorized changes to banking transactions?",
+        ["A. Integrity", "B. Availability", "C. Recovery", "D. Privacy"],
+        0, "الإجابة الصحيحة هي A (Integrity)؛ لأنه يمنع التعديل أو التلاعب في قيم المعاملات البنكية."),
+    mcq("بنك الأسئلة - اختر س14",
+        "A fraudulent website imitates a legitimate online store to steal customers' passwords. Which technique is most directly involved?",
+        ["A. Backup", "B. Social Engineering", "C. Data Recovery", "D. Security Auditing"],
+        1, "الإجابة الصحيحة هي B (Social Engineering - الهندسة الاجتماعية)؛ خداع المستخدم بصفحة مزيفة لإدخال بياناته."),
+    mcq("بنك الأسئلة - اختر س15",
+        "Which cybersecurity professional monitors security alerts, logs, and suspicious activities within a Security Operations Center (SOC)?",
+        ["A. Web Designer", "B. Database User", "C. SOC Analyst", "D. Graphic Designer"],
+        2, "الإجابة الصحيحة هي C (SOC Analyst - محلل مركز العمليات الأمنية)."),
+    mcq("بنك الأسئلة - اختر س16",
+        "Which professional examines digital evidence to determine what happened, when it happened, and which systems were affected?",
+        ["A. Digital Forensics Analyst", "B. Network Installer", "C. Application User", "D. Marketing Analyst"],
+        0, "الإجابة الصحيحة هي A (Digital Forensics Analyst - محلل الأدلة الجنائية الرقمية)."),
+    mcq("بنك الأسئلة - اختر س17",
+        "Which of the following best describes Cyberspace?",
+        ["A. A physical building used to store computers.",
+         "B. A printed collection of information security policies.",
+         "C. A single computer without network connections.",
+         "D. An interconnected digital environment involving computers, networks, users, and digital services."],
+        3, "الإجابة الصحيحة هي D؛ الفضاء السيبراني هو بيئة رقمية مترابطة تشمل الحواسيب والشبكات والمستخدمين والخدمات الرقمية."),
+    mcq("بنك الأسئلة - اختر س18",
+        "Which of the following is an example of a Digital Asset that may be especially valuable to a software company?",
+        ["A. An office chair.", "B. The company's source code.", "C. A paper cup.", "D. A building entrance."],
+        1, "الإجابة الصحيحة هي B (Source Code - الكود المصدري)؛ سرقته قد تفقد الشركة ميزتها التنافسية."),
+    mcq("بنك الأسئلة - اختر س19",
+        "Which two factors are commonly considered when assessing cybersecurity risk?",
+        ["A. Screen size and processor speed.",
+         "B. Number of employees and office location only.",
+         "C. Likelihood and Impact.",
+         "D. Software price and computer color."],
+        2, "الإجابة الصحيحة هي C (Likelihood and Impact - احتمالية الحدوث وحجم التأثير)."),
+    mcq("بنك الأسئلة - اختر س20",
+        "Which statement best describes a strong Security Posture?",
+        ["A. An organization has antivirus software but no backups or incident response plan.",
+         "B. An organization relies only on a firewall.",
+         "C. An organization has security tools but does not train its employees.",
+         "D. An organization combines security technology, trained people, policies, monitoring, incident response, and recovery capabilities."],
+        3, "الإجابة الصحيحة هي D؛ الوضع الأمني القوي يجمع بين التكنولوجيا والأشخاص المدربين والسياسات والمراقبة والاستجابة والتعافي."),
+
+    mcq("ملف المحاضرة - ص2 (مثال نظام الجامعة)",
+        "If an attacker steals student data from the university system, which security objective is directly violated?",
+        ["A. Availability", "B. Integrity", "C. Confidentiality", "D. Recovery"],
+        2, "وفقاً لمثال الجامعة في صفحة 2 من المحاضرة: سرقة بيانات الطلاب تعد مشكلة سرية (Confidentiality)."),
+    mcq("ملف المحاضرة - ص4 (عناصر تعريف الأمن السيبراني)",
+        "When an attacker deletes databases, system logs, or backup copies, this action is classified as:",
+        ["A. Destruction (الإتلاف)", "B. Authentication (المصادقة)", "C. Authorization (التفويض)", "D. Auditing (المراجعة)"],
+        0, "وفقاً لصفحة 4 في المحاضرة: حذف الملفات أو قواعد البيانات أو النسخ الاحتياطية يندرج تحت الإتلاف (Destruction)."),
+    mcq("ملف المحاضرة - ص5 (مقارنة أمن المعلومات والأمن السيبراني)",
+        "Protecting a confidential paper file stored inside a locked physical safe falls under:",
+        ["A. Cybersecurity only", "B. Information Security", "C. Network Security", "D. Cloud Security"],
+        1, "وفقاً للمثال في صفحة 5: إذا كان الملف ورقياً داخل خزينة مؤمنة فإن حمايته تدخل ضمن أمن المعلومات (Information Security)."),
+    mcq("ملف المحاضرة - ص7 (عناصر ضمان المعلومات)",
+        "In the Information Assurance model, which of the following is considered a 'Process' rather than 'Technology'?",
+        ["A. Firewalls", "B. IDS/IPS", "C. Incident Response Procedures & Access Review", "D. Encryption"],
+        2, "وفقاً لصفحة 7: إجراءات الاستجابة للحوادث ومراجعة الصلاحيات والتدقيق الأمني هي Processes، بينما Firewalls و Encryption هي Technology."),
+    tf("ملف المحاضرة - ص9 (الأمن السيبراني في المجتمع الحديث)",
+        "Cybersecurity is the responsibility of governments and large organizations only, not individuals.",
+        1, "العبارة خاطئة؛ في صفحة 9 تنص المحاضرة صراحة على أن الأمن السيبراني مسؤولية الأفراد + المؤسسات + الحكومات (Individuals + Organizations + Governments)."),
+    mcq("ملف المحاضرة - ص10 (أهمية الأمن السيبراني)",
+        "Ensuring Business Continuity requires maintaining which two main elements?",
+        ["A. Availability + Recovery (التوافر + القدرة على الاستعادة)", "B. Phishing + Malware", "C. Hardware + Monitors", "D. Paper Records + Printers"],
+        0, "وفقاً لصفحة 10 (البند 6.4): لضمان استمرارية الأعمال يجب أن نضمن Availability + Recovery."),
+    mcq("ملف المحاضرة - ص11 (تحديات الأمن السيبراني)",
+        "Ransomware, Supply Chain Attacks, and AI-assisted Attacks are examples of which cybersecurity challenge?",
+        ["A. Rapidly Evolving Threats (تطور التهديدات بسرعة)", "B. Physical Hardware Weight", "C. Lack of Electricity", "D. Slow Internet Browsing"],
+        0, "وفقاً لصفحة 11 (البند 7.1): هذه التقنيات الهجومية الحديثة تندرج تحت تحدي تطور التهديدات بسرعة (Rapidly Evolving Threats)."),
+    mcq("ملف المحاضرة - ص20 (مجالات العمل في الأمن السيبراني)",
+        "Which cybersecurity professional focuses on Firewalls, Network Segmentation, VPN, and Network Security Architecture?",
+        ["A. Network Security Engineer", "B. Digital Forensics Analyst", "C. GRC Specialist", "D. Database Clerk"],
+        0, "وفقاً لصفحة 20 من المحاضرة: هذه هي مهام مهندس أمن الشبكات (Network Security Engineer)."),
+    mcq("ملف المحاضرة - ص20 (مجالات العمل في الأمن السيبراني)",
+        "Which cybersecurity professional deals directly with security incidents AFTER they are discovered, such as Malware Infection or Data Breach?",
+        ["A. Incident Responder (مستجيب للحوادث)", "B. Software Salesman", "C. Graphic Designer", "D. Data Entry Operator"],
+        0, "وفقاً لصفحة 20 من المحاضرة: مستجيب الحوادث (Incident Responder) هو من يتعامل مع الحوادث بعد اكتشافها."),
+    mcq("ملف المحاضرة - ص21 (مجالات العمل في الأمن السيبراني)",
+        "What does the abbreviation 'GRC' stand for in the cybersecurity career role 'GRC Specialist'?",
+        ["A. General Computer Repair", "B. Governance, Risk, and Compliance (الحوكمة والمخاطر والامتثال)", "C. Global Router Connection", "D. Graphic Rendering Control"],
+        1, "وفقاً لصفحة 21: GRC يرمز إلى Governance, Risk and Compliance ويهتم بالسياسات والضوابط والتدقيق."),
+    mcq("ملف المحاضرة - ص21 (مجالات العمل في الأمن السيبراني)",
+        "Which professional manages security systems, user access permissions, and security configurations?",
+        ["A. Security Administrator (مسؤول الأمن)", "B. Penetration Tester", "C. Marketing Manager", "D. Hardware Supplier"],
+        0, "وفقاً لصفحة 21: مسؤول الأمن (Security Administrator) يدير Security Systems, User Access, Security Policies, Security Configuration."),
+    mcq("ملف المحاضرة - ص25 (جدول تقييم المخاطر Risk Assessment)",
+        "According to the Risk Assessment matrix, if the Likelihood is HIGH and the Impact is LOW, what is the overall Risk level?",
+        ["A. Low (منخفض)", "B. Medium (متوسط)", "C. High (مرتفع)", "D. Zero (صفر)"],
+        1, "وفقاً لجدول صفحة 25: عندما يكون أحدهما مرتفعاً والآخر منخفضاً تكون المخاطرة متوسطة (Medium)."),
+    mcq("ملف المحاضرة - ص25 (جدول تقييم المخاطر Risk Assessment)",
+        "According to the Risk Assessment matrix, when is the overall Cyber Risk considered HIGH?",
+        ["A. When Likelihood is Low and Impact is Low",
+         "B. When Likelihood is High and Impact is Low",
+         "C. When Likelihood is Low and Impact is High",
+         "D. When both Likelihood is High and Impact is High"],
+        3, "وفقاً لجدول صفحة 25: تكون المخاطرة مرتفعة عندما تكون الاحتمالية مرتفعة وحجم التأثير مرتفعاً معاً."),
+    mcq("ملف المحاضرة - ص29 (خطوات الاستجابة للحوادث Incident Response)",
+        "What is the correct sequence of steps in the Incident Response process as presented in the lecture?",
+        ["A. Detect → Analyze → Contain → Eradicate → Recover",
+         "B. Recover → Delete → Ignore → Shut down",
+         "C. Eradicate → Detect → Contain → Analyze",
+         "D. Contain → Recover → Detect → Analyze"],
+        0, "وفقاً لصفحة 29 (Step - Incident Response): الترتيب هو Detect (اكتشاف) ثم Analyze (تحليل) ثم Contain (احتواء) ثم Eradicate (إزالة) ثم Recover (تعافي)."),
+    mcq("ملف المحاضرة - ص29 (قاموس المصطلحات الأساسية)",
+        "Which term refers to granting a verified user permission to access specific resources, as opposed to Authentication, which only verifies identity?",
+        ["A. Authorization", "B. Availability", "C. Auditing", "D. Antivirus"],
+        0, "وفقاً لجدول المصطلحات صفحة 29: Authentication هي المصادقة (التحقق من الهوية)، بينما Authorization هي التفويض أو التصريح (الصلاحيات)."),
+    mcq("ملف المحاضرة - ص28 (مثال البوابة الإلكترونية للطلاب)",
+        "In the University Student Portal scenario, when an attacker attempts to obtain login data using a weak password, this attack is called:",
+        ["A. Credential Attack", "B. Hardware Destruction", "C. Power Outage", "D. Cable Cut"],
+        0, "وفقاً لصفحة 28 (Step - Attack): محاولة المهاجم الحصول على بيانات الدخول تسمى Credential Attack."),
+    mcq("ملف المحاضرة - ص10 (حماية الخصوصية)",
+        "Which concept specifically refers to protecting personal information from unauthorized use or disclosure?",
+        ["A. Privacy (الخصوصية)", "B. Network Segmentation", "C. Hardware Maintenance", "D. System Reboot"],
+        0, "وفقاً لصفحة 10 (البند 6.2): الخصوصية (Privacy) تعني حماية المعلومات الشخصية من الاستخدام أو الكشف غير المصرح به."),
+    tf("ملف المحاضرة - ص24 (الفرق بين Digital Asset و Information Asset)",
+        "Every Information Asset is considered a valuable asset, but not every Digital Asset is necessarily an Information Asset.",
+        0, "العبارة صحيحة بالنص من صفحة 24؛ فمثلاً Server Hardware هو أصل رقمي/تقني مهم لكنه ليس معلومة بحد ذاته."),
+    mcq("ملف المحاضرة - ص3 (أنواع التهديدات Threats)",
+        "A malicious employee inside an organization who misuses their access to harm an asset is called:",
+        ["A. Insider (مستخدم داخلي خبيث)", "B. SOC Analyst", "C. GRC Specialist", "D. Digital Certificate"],
+        0, "وفقاً لصفحة 3 (ثانياً - التهديدات): المستخدم الداخلي الخبيث يُسمى Insider."),
+    mcq("ملف المحاضرة - ص17 (الأمن السيبراني في البنوك)",
+        "In banking systems, recording transaction details so they can be reviewed later relies on which controls?",
+        ["A. Logging and Monitoring (التسجيل والمراقبة)", "B. Screen Brightness", "C. Office Furniture", "D. Social Engineering"],
+        0, "وفقاً لمثال تحويل 10,000 جنيه في صفحة 17: تسجيل العملية وإمكانية مراجعتها لاحقاً يبرز أهمية Logging و Monitoring.")
+];
+
+const bankQuestions = questionBank.slice(0, 40);
+const lectureQuestions = questionBank.slice(40);
+
+const isTrueFalse = q => q.type === "tf";
+const isMultipleChoice = q => q.type === "mcq";
+
+function shuffle(list) {
+    const copy = [...list];
+    for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+}
+
+const examModes = {
+    random15: {
+        label: "امتحان عشوائي (15 سؤال)", minutes: 45, source: "بنك الأسئلة وملف المحاضرة",
+        pick: () => [
+            ...shuffle(questionBank.filter(isTrueFalse)).slice(0, 7),
+            ...shuffle(questionBank.filter(isMultipleChoice)).slice(0, 8)
+        ]
+    },
+    exam1: {
+        label: "النموذج الأول (15 سؤال)", minutes: 45, source: "بنك الأسئلة",
+        pick: () => [...bankQuestions.slice(0, 7), ...bankQuestions.slice(20, 28)]
+    },
+    exam2: {
+        label: "النموذج الثاني (15 سؤال)", minutes: 45, source: "بنك الأسئلة",
+        pick: () => [...bankQuestions.slice(7, 14), ...bankQuestions.slice(28, 36)]
+    },
+    exam3: {
+        label: "النموذج الثالث (15 سؤال)", minutes: 45, source: "بنك الأسئلة وملف المحاضرة",
+        pick: () => [...bankQuestions.slice(14, 20), ...bankQuestions.slice(36, 40), ...lectureQuestions.slice(0, 5)]
+    },
+    bank40: {
+        label: "بنك الأسئلة كاملاً (40 سؤال)", minutes: 60, source: "بنك الأسئلة",
+        pick: () => [...bankQuestions]
+    },
+    all60: {
+        label: "الشامل: البنك + المحاضرة (60 سؤال)", minutes: 90, source: "بنك الأسئلة وملف المحاضرة",
+        pick: () => [...questionBank]
+    }
+};
+
+// الشرح الأصلي بيذكر حرف الإجابة (B, C...)؛ بعد خلط الاختيارات الحرف ده يبقى غلط فبنشيله.
+const stripOptionPrefix = text => text
+    .replace(/^[A-D]\.\s*/, "")
+    .replace(/\s*\([^()]*[\u0600-\u06FF][^()]*\)\s*$/, "");
+
+function prepareQuestion(q) {
+    const explanation = q.explanation.replace(/^الإجابة الصحيحة هي [A-D]\s*[؛:]?\s*/, "");
+    if (q.type === "tf") return { ...q, explanation };
+
+    const optionTexts = q.options.map(stripOptionPrefix);
+    const newOrder = shuffle(optionTexts.map((_, index) => index));
+    return {
+        ...q,
+        explanation,
+        options: newOrder.map(oldIndex => optionTexts[oldIndex]),
+        answer: newOrder.indexOf(q.answer)
+    };
+}
+
+let session = null;
+let timerHandle = null;
+let deadline = 0;
+
+const el = id => document.getElementById(id);
+const modeSelector = el("modeSelector");
+const questionsContainer = el("questionsContainer");
+
+function startMode(modeKey) {
+    const mode = examModes[modeKey];
+    const questions = mode.pick().map(prepareQuestion);
+
+    session = {
+        modeKey,
+        questions,
+        answers: new Array(questions.length).fill(null),
+        submitted: false,
+        reviewing: false
+    };
+
+    el("quizView").hidden = false;
+    el("submittedScreen").hidden = true;
+    el("formActions").hidden = false;
+    el("totalScoreBadge").hidden = true;
+    el("reviewToolbar").hidden = true;
+    el("noWrongNote").hidden = true;
+    questionsContainer.classList.remove("only-wrong");
+
+    el("examDescription").innerHTML =
+        `امتحان محاكاة لمادة مقدمة في الأمن السيبراني (ICT101) - الوحدة الأولى.<br>` +
+        `الزمن المخصص: <strong>${mode.minutes} دقيقة</strong> | عدد الأسئلة: <strong>${questions.length}</strong> | المصدر: ${mode.source}`;
+
+    modeSelector.querySelectorAll(".mode-btn").forEach(btn =>
+        btn.setAttribute("aria-pressed", String(btn.dataset.mode === modeKey)));
+
+    renderQuestions();
+    startTimer(mode.minutes);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function questionCardHTML(q, index) {
+    const chosen = session.answers[index];
+    const reviewing = session.reviewing;
+    const isCorrect = chosen === q.answer;
+
+    const optionsHTML = q.options.map((text, optionIndex) => {
+        let cls = "option-label";
+        if (reviewing) {
+            if (optionIndex === q.answer) cls += " correct-opt";
+            else if (optionIndex === chosen) cls += " wrong-opt";
+        }
+        return `<label class="${cls}">
+            <input type="radio" name="q${index}" value="${optionIndex}" data-question="${index}"
+                ${optionIndex === chosen ? "checked" : ""} ${reviewing ? "disabled" : ""}>
+            <span>${text}</span>
+        </label>`;
+    }).join("");
+
+    let pointsHTML = `<div class="q-points">1 point</div>`;
+    let feedbackHTML = "";
+    let cardClass = "gf-card";
+
+    if (reviewing) {
+        cardClass += isCorrect ? " correct-card" : " wrong-card";
+        pointsHTML = `<div class="q-points ${isCorrect ? "pts-ok" : "pts-bad"}">${isCorrect ? 1 : 0} / 1</div>`;
+
+        const verdict = isCorrect
+            ? `<div class="feedback-title pass">إجابة صحيحة</div>`
+            : `<div class="feedback-title fail">${chosen === null ? "لم تتم الإجابة" : "إجابة خاطئة"} - الإجابة الصحيحة: ${q.options[q.answer]}</div>`;
+
+        feedbackHTML = `<div class="feedback-box">
+            ${verdict}
+            <div class="feedback-source">المصدر: ${q.source}</div>
+            <div><strong>الشرح:</strong> ${q.explanation}</div>
+        </div>`;
+    }
+
+    return `<div class="${cardClass}" id="q-card-${index}">
+        <div class="q-header">
+            <div class="q-title-wrap">
+                <div class="q-en">${index + 1}. ${q.en} <span class="req-star">*</span></div>
+            </div>
+            ${pointsHTML}
+        </div>
+        <div class="options-list" role="radiogroup">${optionsHTML}</div>
+        <div class="error-msg" role="alert">هذا السؤال مطلوب (This is a required question)</div>
+        ${feedbackHTML}
+    </div>`;
+}
+
+function renderQuestions() {
+    questionsContainer.innerHTML = session.questions.map(questionCardHTML).join("");
+    updateProgress();
+}
+
+function updateProgress() {
+    const answered = session.answers.filter(a => a !== null).length;
+    el("progressText").textContent = `تمت الإجابة على: ${answered} / ${session.questions.length}`;
+}
+
+questionsContainer.addEventListener("change", event => {
+    const input = event.target;
+    if (!input.matches('input[type="radio"]') || session.submitted) return;
+
+    const questionIndex = Number(input.dataset.question);
+    session.answers[questionIndex] = Number(input.value);
+    el(`q-card-${questionIndex}`).classList.remove("unanswered-error");
+    updateProgress();
+});
+
+function formatClock(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+// بنحسب من وقت الانتهاء مش من عدد الثواني، عشان التايمر مايتأخرش لو التاب اتحط في الخلفية على الموبايل.
+function startTimer(minutes) {
+    clearInterval(timerHandle);
+    deadline = Date.now() + minutes * 60 * 1000;
+    el("timerBox").classList.remove("warning");
+    tickTimer();
+    timerHandle = setInterval(tickTimer, 500);
+}
+
+function tickTimer() {
+    const secondsLeft = Math.max(0, Math.round((deadline - Date.now()) / 1000));
+    el("timerDisplay").textContent = formatClock(secondsLeft);
+    el("timerBox").classList.toggle("warning", secondsLeft <= 300);
+
+    if (secondsLeft === 0) {
+        clearInterval(timerHandle);
+        submitQuiz(true);
+        showDialog({ message: "انتهى وقت الامتحان. تم تسليم إجاباتك وتصحيحها تلقائياً.", confirmText: "عرض النتيجة" });
+    }
+}
+
+function countCorrect() {
+    return session.questions.filter((q, i) => session.answers[i] === q.answer).length;
+}
+
+function submitQuiz(timedOut = false) {
+    if (!session || session.submitted) return;
+
+    if (!timedOut) {
+        let firstMissing = null;
+        session.answers.forEach((answer, i) => {
+            const card = el(`q-card-${i}`);
+            const missing = answer === null;
+            card.classList.toggle("unanswered-error", missing);
+            if (missing && !firstMissing) firstMissing = card;
+        });
+        if (firstMissing) {
+            firstMissing.scrollIntoView({ behavior: "smooth", block: "center" });
+            return;
+        }
+    }
+
+    session.submitted = true;
+    clearInterval(timerHandle);
+    el("timerBox").classList.remove("warning");
+
+    const correct = countCorrect();
+    const total = session.questions.length;
+    const percentage = Math.round((correct / total) * 100);
+
+    const summary = el("quickSummary");
+    summary.replaceChildren();
+
+    const studentName = el("studentName").value.trim();
+    if (studentName) {
+        const nameLine = document.createElement("div");
+        nameLine.className = "result-name";
+        nameLine.textContent = studentName;
+        summary.appendChild(nameLine);
+    }
+    const scoreLine = document.createElement("div");
+    scoreLine.innerHTML = `النتيجة: <span dir="ltr">${correct} / ${total}</span> (${percentage}%)`;
+    summary.appendChild(scoreLine);
+
+    el("quizView").hidden = true;
+    el("submittedScreen").hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showReview() {
+    session.reviewing = true;
+    renderQuestions();
+
+    const badge = el("totalScoreBadge");
+    badge.textContent = `Total points: ${countCorrect()} / ${session.questions.length}`;
+    badge.hidden = false;
+
+    el("reviewToolbar").hidden = false;
+    el("formActions").hidden = true;
+    el("submittedScreen").hidden = true;
+    el("quizView").hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+el("reviewToolbar").addEventListener("click", event => {
+    const button = event.target.closest(".filter-btn");
+    if (!button) return;
+
+    const onlyWrong = button.dataset.filter === "wrong";
+    questionsContainer.classList.toggle("only-wrong", onlyWrong);
+    el("noWrongNote").hidden = !(onlyWrong && countCorrect() === session.questions.length);
+    el("reviewToolbar").querySelectorAll(".filter-btn").forEach(b =>
+        b.setAttribute("aria-pressed", String(b === button)));
+});
+
+function showDialog({ message, confirmText = "حسناً", cancelText = null }) {
+    const dialog = el("messageDialog");
+    el("dialogMessage").textContent = message;
+    el("dialogConfirm").textContent = confirmText;
+    el("dialogCancel").hidden = !cancelText;
+    if (cancelText) el("dialogCancel").textContent = cancelText;
+
+    return new Promise(resolve => {
+        dialog.returnValue = "";
+        dialog.addEventListener("close", () => resolve(dialog.returnValue === "ok"), { once: true });
+        dialog.showModal();
+    });
+}
+
+const hasUnsubmittedAnswers = () =>
+    session && !session.submitted && session.answers.some(a => a !== null);
+
+async function chooseMode(modeKey) {
+    if (hasUnsubmittedAnswers()) {
+        const proceed = await showDialog({
+            message: "عندك إجابات لسه ما اتسلمتش. لو غيرت النموذج هتتمسح.",
+            confirmText: "غيّر النموذج",
+            cancelText: "ارجع للامتحان"
+        });
+        if (!proceed) return;
+    }
+    startMode(modeKey);
+}
+
+async function clearForm() {
+    const proceed = await showDialog({
+        message: "هل أنت متأكد من محو جميع إجاباتك وإعادة ضبط الوقت؟",
+        confirmText: "امسح الإجابات",
+        cancelText: "إلغاء"
+    });
+    if (!proceed) return;
+
+    session.answers.fill(null);
+    renderQuestions();
+    startTimer(examModes[session.modeKey].minutes);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+modeSelector.innerHTML = Object.entries(examModes)
+    .map(([key, mode]) => `<button type="button" class="mode-btn" data-mode="${key}" aria-pressed="false">${mode.label}</button>`)
+    .join("");
+
+modeSelector.addEventListener("click", event => {
+    const button = event.target.closest(".mode-btn");
+    if (button) chooseMode(button.dataset.mode);
+});
+
+el("submitBtn").addEventListener("click", () => submitQuiz());
+el("clearBtn").addEventListener("click", clearForm);
+el("reviewBtn").addEventListener("click", showReview);
+el("retryBtn").addEventListener("click", () => startMode(session.modeKey));
+
+window.addEventListener("beforeunload", event => {
+    if (hasUnsubmittedAnswers()) event.preventDefault();
+});
+
+const themeStorageKey = "ict101-theme";
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+
+function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    el("themeToggle").textContent = theme === "dark" ? "الوضع الفاتح" : "الوضع الداكن";
+    themeColorMeta.content = theme === "dark" ? "#1b1824" : "#673ab7";
+}
+
+el("themeToggle").addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    applyTheme(next);
+    try { localStorage.setItem(themeStorageKey, next); } catch (error) { /* التخزين ممنوع في بعض المتصفحات */ }
+});
+
+applyTheme(document.documentElement.dataset.theme);
+startMode("random15");
+</script>
+</body>
+</html>
